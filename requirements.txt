@@ -1,0 +1,16 @@
+lxml~=4.9.3
+beautifulsoup4~=4.12.2
+soupsieve~=2.5
+Pillow~=10.1.0
+pip~=23.2.1
+requests~=2.31.0
+colorama~=0.4.6
+certifi~=2023.11.17
+pikepdf~=8.9.0
+Deprecated~=1.2.14
+packaging~=23.2
+idna~=3.6
+urllib3~=2.1.0
+wrapt~=1.16.0
+img2pdf~=0.5.1
+tqdm~=4.66.1
