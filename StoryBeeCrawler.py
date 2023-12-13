@@ -36,12 +36,16 @@ class StoryBeeCrawler:
                       "Chrome/90.0.4430.212 Safari/537.36"
     }
 
-    def __init__(self, book="time-zones-and-cities-book-3", v2=True):
+    def __init__(self, bookurl: str):
+        print(bookurl)
         self.session = requests.session()
         self.session.headers.update(self.HEADERS)
         self.session.cookies.update(load_cookie())
-        self.book = book
-        self.v2 = v2
+        if bookurl.startswith(self.BASE_URL_V1):
+            self.book = re.search(r"books/(\w+)/#", bookurl).group(1)
+        else:
+            self.book = bookurl.split("/")[-1]
+        self.v2 = not bookurl.startswith(self.BASE_URL_V1)
         self.book_dir = os.path.join(PATH, "Books")
 
         if not os.path.exists(self.book_dir):
@@ -124,7 +128,7 @@ class StoryBeeCrawler:
 
 
 def main(args):
-    StoryBeeCrawler(args.bookname, not args.v1)
+    StoryBeeCrawler(args.bookurl)
 
 
 if __name__ == '__main__':
@@ -133,9 +137,6 @@ if __name__ == '__main__':
                                                     " from storybee.space",
                                         add_help=False,
                                         allow_abbrev=False)
-    arguments.add_argument("bookname", metavar="<Book name>", help="Book name you can find in the URL"
-                                                                   "http://books.storybee.space/books/XXXX"
-                                                                   " or https://www.storybee.space/xxxx")
-    arguments.add_argument("--v1", action="store_true", help="The old version in "
-                                                              "http://books.storybee.space domain")
+    arguments.add_argument("bookurl", metavar="<Book name>", help="The full url of you favorite book")
+
     main(arguments.parse_args())
